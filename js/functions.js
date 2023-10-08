@@ -16,7 +16,7 @@ checkslength(string, maxLength);
 //Функция для проверки, является ли строка палиндромом.
 const polindromize = function(line){
   const caseLine = line.toLowerCase().replaceAll(' ', '');
-  const lineLength = line.length;
+  const lineLength = caseLine.length;
   let j = 0;
   for(let i = 0; i < lineLength; i++){
     if(caseLine.at(-(i++)) === caseLine.at(i)){
