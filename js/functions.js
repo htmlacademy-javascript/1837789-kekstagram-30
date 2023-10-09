@@ -58,7 +58,7 @@ const lookingNumbers = (string) => {
       }
     }
   }
-  return parseInt(stringNambers);
+  return parseInt(stringNambers, 10);
 };
 
 lookingNumbers('2023 год'); // 2023
