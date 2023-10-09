@@ -1,13 +1,13 @@
 //Функция для проверки длины строки.
 
-const checkslength = (string, maxStringLength) => string.length <= maxStringLength;
+const checksLength = (string, maxStringLength) => string.length <= maxStringLength;
 
-checkslength('проверяемая строка', 20); // true
-//console.log(checkslength('проверяемая строка', 20));
-checkslength('проверяемая строка', 18); // true
-//console.log(checkslength('проверяемая строка', 18));
-checkslength('проверяемая строка', 10); // false
-//console.log(checkslength('проверяемая строка', 10));
+checksLength('проверяемая строка', 20); // true
+//console.log(checksLength('проверяемая строка', 20));
+checksLength('проверяемая строка', 18); // true
+//console.log(checksLength('проверяемая строка', 18));
+checksLength('проверяемая строка', 10); // false
+//console.log(checksLength('проверяемая строка', 10));
 
 //Функция для проверки, является ли строка палиндромом.
 //1. Решение без использования массива.
