@@ -1,52 +1,78 @@
 //Функция для проверки длины строки.
-const string = 'Кекс';
-const maxLength = 10;
 
-function checkslength(line, maxlineLength) {
-  const lineLength = line.length;
-  if(lineLength > maxlineLength) {
-    return false;
-  }else {
-    return true;
-  }
-}
-checkslength(string, maxLength);
+const checkslength = (string, maxStringLength) => string.length <= maxStringLength;
 
+checkslength('проверяемая строка', 20); // true
+//console.log(checkslength('проверяемая строка', 20));
+checkslength('проверяемая строка', 18); // true
+//console.log(checkslength('проверяемая строка', 18));
+checkslength('проверяемая строка', 10); // false
+//console.log(checkslength('проверяемая строка', 10));
 
 //Функция для проверки, является ли строка палиндромом.
-const polindromize = function(line){
-  const caseLine = line.toLowerCase().replaceAll(' ', '');
-  const lineLength = line.length;
+// 1. Решение без использования массива
+const polindromize = (string) => {
+  const caseString = string.toLowerCase().replaceAll(' ', '');
+  const stringLength = caseString.length;
   let j = 0;
-  for(let i = 0; i < lineLength; i++){
-    if(caseLine.at(-(i++)) === caseLine.at(i)){
+  for(let i = 0; i < stringLength; i++){
+    if(caseString.at(-(i + 1)) === caseString.at(i)){
       j++;
     }
   }
-  if(j === lineLength){
-    return true;
-  }else {
-    return false;
-  }
+  return j === stringLength;
 };
-polindromize(string);
+polindromize('топот'); // true
+//console.log(polindromize('топот'));
+polindromize('ДовОд'); // true
+//console.log(polindromize('ДовОд'));
+polindromize('Кекс'); // false
+//console.log(polindromize('Кекс'));
+
+// 2. Решение c использованием массива
+
+const polindromize2 = (string) => {
+  const caseString = string.toLowerCase().replaceAll(' ', '');
+  const stringRevers = caseString.split('').reverse().join('');
+  return stringRevers === caseString;
+};
+
+polindromize2('топот');
+//console.log(polindromize2('топот')); // true
+//console.log(polindromize2('ДовОд')); // true
+//console.log(polindromize2('Кекс')); //false
+
 
 /*Функция принимает строку, извлекает содержащиеся в ней цифры от 0 до 9
 и возвращает их в виде целого положительного числа.*/
 
-const lookingNumbers = function(line) {
-  line = String(line);
-  const lineLength = line.length;
-  let lineNambers = '';
-  for(let i = 0; i < lineLength; i++){
+const lookingNumbers = (string) => {
+  string = String(string);
+  const stringLength = string.length;
+  let stringNambers = '';
+  for(let i = 0; i < stringLength; i++){
     for(let j = 0; j < 10; j++){
-      if(line.at(i) === String(j)){
-        lineNambers = lineNambers + String(j);
+      if(string.at(i) === String(j)){
+        stringNambers = stringNambers + String(j);
       }
     }
   }
-  return parseFloat(lineNambers, 10);
+  return parseInt(stringNambers, 10);
 };
 
-const string1 = 'xcg 00.5 456';
-lookingNumbers(string1);
+lookingNumbers('2023 год'); // 2023
+//console.log(lookingNumbers('2023 год'));
+lookingNumbers('ECMAScript 2022'); // 2022
+//console.log(lookingNumbers('ECMAScript 2022'));
+lookingNumbers('1 кефир, 0.5 батона'); // 105
+//console.log(lookingNumbers('1 кефир, 0.5 батона'));
+lookingNumbers('агент 007'); // 7
+//console.log(lookingNumbers('агент 007'));
+lookingNumbers('а я томат'); // NaN
+//console.log(lookingNumbers('а я томат'));
+lookingNumbers(2023); // 2023
+//console.log(lookingNumbers(2023));
+lookingNumbers(-1); // 1
+//console.log(lookingNumbers(-1));
+lookingNumbers(1.5); // 15
+//console.log(lookingNumbers(1.5));
