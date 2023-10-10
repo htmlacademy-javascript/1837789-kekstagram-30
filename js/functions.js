@@ -51,10 +51,8 @@ const lookingNumbers = (string) => {
   const stringLength = string.length;
   let stringNambers = '';
   for(let i = 0; i < stringLength; i++){
-    for(let j = 0; j < 10; j++){
-      if(string.at(i) === String(j)){
-        stringNambers = stringNambers + String(j);
-      }
+    if(!Number.isNaN(parseInt(string[i], 10))) {
+      stringNambers += string[i];
     }
   }
   return parseInt(stringNambers, 10);
