@@ -15,13 +15,12 @@ checksLength('проверяемая строка', 10); // false
 const polindromize = (string) => {
   const caseString = string.toLowerCase().replaceAll(' ', '');
   const stringLength = caseString.length;
-  let j = 0;
-  for(let i = 0; i < stringLength; i++){
-    if(caseString.at(-(i + 1)) === caseString.at(i)){
-      j++;
+  for(let i = 0; i < stringLength / 2; i++){
+    if(caseString.at(-(i + 1)) !== caseString.at(i)){
+      return false;
     }
   }
-  return j === stringLength;
+  return true;
 };
 polindromize('топот'); // true
 //console.log(polindromize('топот'));
