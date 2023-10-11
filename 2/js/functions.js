@@ -1,13 +1,13 @@
 //Функция для проверки длины строки.
 
-const checkslength = (string, maxStringLength) => string.length <= maxStringLength;
+const checksLength = (string, maxStringLength) => string.length <= maxStringLength;
 
-checkslength('проверяемая строка', 20); // true
-//console.log(checkslength('проверяемая строка', 20));
-checkslength('проверяемая строка', 18); // true
-//console.log(checkslength('проверяемая строка', 18));
-checkslength('проверяемая строка', 10); // false
-//console.log(checkslength('проверяемая строка', 10));
+checksLength('проверяемая строка', 20); // true
+//console.log(checksLength('проверяемая строка', 20));
+checksLength('проверяемая строка', 18); // true
+//console.log(checksLength('проверяемая строка', 18));
+checksLength('проверяемая строка', 10); // false
+//console.log(checksLength('проверяемая строка', 10));
 
 //Функция для проверки, является ли строка палиндромом.
 //1. Решение без использования массива.
@@ -15,13 +15,12 @@ checkslength('проверяемая строка', 10); // false
 const polindromize = (string) => {
   const caseString = string.toLowerCase().replaceAll(' ', '');
   const stringLength = caseString.length;
-  let j = 0;
-  for(let i = 0; i < stringLength; i++){
-    if(caseString.at(-(i + 1)) === caseString.at(i)){
-      j++;
+  for(let i = 0; i < stringLength / 2; i++){
+    if(caseString.at(-(i + 1)) !== caseString.at(i)){
+      return false;
     }
   }
-  return j === stringLength;
+  return true;
 };
 polindromize('топот'); // true
 //console.log(polindromize('топот'));
@@ -52,10 +51,8 @@ const lookingNumbers = (string) => {
   const stringLength = string.length;
   let stringNambers = '';
   for(let i = 0; i < stringLength; i++){
-    for(let j = 0; j < 10; j++){
-      if(string.at(i) === String(j)){
-        stringNambers = stringNambers + String(j);
-      }
+    if(!Number.isNaN(parseInt(string[i], 10))) {
+      stringNambers += string[i];
     }
   }
   return parseInt(stringNambers, 10);
