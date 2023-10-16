@@ -33,6 +33,12 @@ const createUniqueId = (min, max) => {
   };
 };
 
+const createArrayOfObjects = (array, length, functionCreate) => {
+  for (let i = 0; i < length; i++) {
+    array.push(functionCreate());
+  }
+};
+
 const description = [
   'Мое фото',
   'Фото прошлого года',
@@ -88,24 +94,43 @@ const commentsMessage = [
   'Тоже так хочу.'
 ];
 
+const generatePhotoId = createUniqueId(1, 25);
+
 const photoDescription = () => {
-  const generatePhotoId = createUniqueId(1, 25);
   const generatePhotoIdAndUrl = generatePhotoId();
-  const generateCommentsId = getRandomInteger(0, commentsName.length - 1);
-  const generateidComments = createUniqueId(1, 30);
+  const quantityComments = getRandomInteger(2, 5);
+  const generateidComments = createUniqueId(1, 5);
+
+  const createArrComments = () => {
+    const generateCommentsName = createUniqueId(0, commentsName.length - 1);
+    const generateCommentsmessage = createUniqueId(1, commentsMessage.length - 1);
+    const quantityMessage = getRandomInteger(1, 2);
+    let messageString = '';
+
+    for (let i = 0; i < quantityMessage; i++) {
+      messageString = `${messageString} ${commentsMessage[generateCommentsmessage()]}`;
+    }
+
+    return {
+      idComments: generateidComments(),
+      avatar: `img/avatar-${getRandomInteger(1, 6)}.svg`,
+      message: messageString,
+      name: commentsName[generateCommentsName()],
+    };
+  };
+  const arrComments = [];
+  createArrayOfObjects(arrComments, quantityComments, createArrComments);
   return {
     id: generatePhotoIdAndUrl,
     url: `photos/${generatePhotoIdAndUrl}.jpg`,
     description: description[getRandomInteger(0, description.length - 1)],
     likes: getRandomInteger(15, 200),
-    comments: {
-      idComments: generateidComments(),
-      avatar: `img/avatar-${getRandomInteger(1, 6)}.svg`,
-      message: commentsMessage[generateCommentsId],
-      name: commentsName[getRandomInteger(0, commentsName.length - 1)],
-    }
+    comments: arrComments,
   };
 };
 
-photoDescription();
-//console.log(photoDescription());
+const arrPhotoDescription = [];
+
+createArrayOfObjects(arrPhotoDescription, 25, photoDescription);
+
+//console.log(arrPhotoDescription);
