@@ -1,6 +1,4 @@
 //Функция для проверки длины строки.
-
-<<<<<<< HEAD
 const checkslength = (string, maxStringLength) => string.length <= maxStringLength;
 
 checkslength('проверяемая строка', 20); // true
@@ -9,27 +7,6 @@ checkslength('проверяемая строка', 18); // true
 //console.log(checkslength('проверяемая строка', 18));
 checkslength('проверяемая строка', 10); // false
 //console.log(checkslength('проверяемая строка', 10));
-
-//Функция для проверки, является ли строка палиндромом.
-const polindromize = (string) => {
-  const caseString = string.toLowerCase().replaceAll(' ', '');
-  const stringLength = string.length;
-  let j = 0;
-  for(let i = 0; i < stringLength; i++){
-    if(caseString.at(-(i + 1)) === caseString.at(i)){
-      j++;
-    }
-  }
-  return j === stringLength;
-=======
-const checksLength = (string, maxStringLength) => string.length <= maxStringLength;
-
-checksLength('проверяемая строка', 20); // true
-//console.log(checksLength('проверяемая строка', 20));
-checksLength('проверяемая строка', 18); // true
-//console.log(checksLength('проверяемая строка', 18));
-checksLength('проверяемая строка', 10); // false
-//console.log(checksLength('проверяемая строка', 10));
 
 //Функция для проверки, является ли строка палиндромом.
 //1. Решение без использования массива.
@@ -43,7 +20,6 @@ const polindromize = (string) => {
     }
   }
   return true;
->>>>>>> 49806557ea0126cd4f810bb53136cfcc34c5ec25
 };
 polindromize('топот'); // true
 //console.log(polindromize('топот'));
@@ -74,15 +50,8 @@ const lookingNumbers = (string) => {
   const stringLength = string.length;
   let stringNambers = '';
   for(let i = 0; i < stringLength; i++){
-<<<<<<< HEAD
-    for(let j = 0; j < 10; j++){
-      if(string.at(i) === String(j)){
-        stringNambers = stringNambers + String(j);
-      }
-=======
     if(!Number.isNaN(parseInt(string[i], 10))) {
       stringNambers += string[i];
->>>>>>> 49806557ea0126cd4f810bb53136cfcc34c5ec25
     }
   }
   return parseInt(stringNambers, 10);
