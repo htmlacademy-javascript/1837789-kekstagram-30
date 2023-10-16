@@ -10,10 +10,9 @@ checkslength('проверяемая строка', 10); // false
 //console.log(checkslength('проверяемая строка', 10));
 
 //Функция для проверки, является ли строка палиндромом.
-// 1. Решение без использования массива
 const polindromize = (string) => {
   const caseString = string.toLowerCase().replaceAll(' ', '');
-  const stringLength = caseString.length;
+  const stringLength = string.length;
   let j = 0;
   for(let i = 0; i < stringLength; i++){
     if(caseString.at(-(i + 1)) === caseString.at(i)){
