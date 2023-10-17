@@ -133,4 +133,4 @@ const arrPhotoDescription = [];
 
 createArrayOfObjects(arrPhotoDescription, 25, photoDescription);
 
-//console.log(arrPhotoDescription);
+console.log(arrPhotoDescription);
