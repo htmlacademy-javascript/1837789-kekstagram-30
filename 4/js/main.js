@@ -1,45 +1,10 @@
-// Генерация случайного целого числа из заданного диапазона.
+const PICTURE_COUNT = 25;
+const AVATAR_COUNT = 6;
+const LIKE_MIN_COUNT = 15;
+const LIKE_MAX_COUNT = 200;
+const COMMENT_COUNT = 5;
 
-const getRandomInteger = (min, max) => {
-  const lower = Math.ceil(Math.min(Math.abs(min), Math.abs(max)));
-  const upper = Math.floor(Math.max(Math.abs(min), Math.abs(max)));
-  const result = Math.random() * (upper - lower + 1) + lower;
-
-  return Math.floor(result);
-};
-
-getRandomInteger(1, 25);
-//console.log(getRandomInteger(0, 25));
-//console.log(getRandomInteger(0, 1));
-//console.log(getRandomInteger(0, 1));
-//console.log(getRandomInteger(1, 25));
-//console.log(getRandomInteger(24, 25));
-
-// Создание уникальных ключей.
-
-const createUniqueId = (min, max) => {
-  const previousValues = [];
-
-  return function () {
-    let currentValue = getRandomInteger(min, max);
-    if (previousValues.length >= (max - min + 1)) {
-      return null;
-    }
-    while (previousValues.includes(currentValue)) {
-      currentValue = getRandomInteger(min, max);
-    }
-    previousValues.push(currentValue);
-    return currentValue;
-  };
-};
-
-const createArrayOfObjects = (array, length, functionCreate) => {
-  for (let i = 0; i < length; i++) {
-    array.push(functionCreate());
-  }
-};
-
-const description = [
+const DESCRIPTION = [
   'Мое фото',
   'Фото прошлого года',
   'Не помню когда это было',
@@ -50,7 +15,7 @@ const description = [
   'И снова мое фото'
 ];
 
-const commentsName = [
+const COMMENTS_NAME = [
   'Иван',
   'Хуан Себастьян',
   'Мария',
@@ -61,7 +26,7 @@ const commentsName = [
   'Вашингтон'
 ];
 
-const commentsMessage = [
+const COMMENTS_MESSAGE = [
   'Всё отлично!',
   'Замечательное фото',
   'В целом всё неплохо.',
@@ -94,43 +59,87 @@ const commentsMessage = [
   'Тоже так хочу.'
 ];
 
-const generatePhotoId = createUniqueId(1, 25);
+// Генерация случайного целого числа из заданного диапазона.
 
-const photoDescription = () => {
-  const generatePhotoIdAndUrl = generatePhotoId();
-  const quantityComments = getRandomInteger(2, 5);
-  const generateidComments = createUniqueId(1, 5);
+const getRandomInteger = (min, max) => {
+  const lower = Math.ceil(Math.min(Math.abs(min), Math.abs(max)));
+  const upper = Math.floor(Math.max(Math.abs(min), Math.abs(max)));
+  const result = Math.random() * (upper - lower + 1) + lower;
 
-  const createArrComments = () => {
-    const generateCommentsName = createUniqueId(0, commentsName.length - 1);
-    const generateCommentsmessage = createUniqueId(1, commentsMessage.length - 1);
-    const quantityMessage = getRandomInteger(1, 2);
-    let messageString = '';
+  return Math.floor(result);
+};
 
-    for (let i = 0; i < quantityMessage; i++) {
-      messageString = `${messageString} ${commentsMessage[generateCommentsmessage()]}`;
+getRandomInteger(1, 25);
+
+
+// Создание уникальных ключей.
+
+const createUniqueId = (min, max) => {
+  const previousValues = [];
+
+  return function () {
+    let currentValue = getRandomInteger(min, max);
+    if (previousValues.length >= (max - min + 1)) {
+      return null;
     }
-
-    return {
-      idComments: generateidComments(),
-      avatar: `img/avatar-${getRandomInteger(1, 6)}.svg`,
-      message: messageString,
-      name: commentsName[generateCommentsName()],
-    };
-  };
-  const arrComments = [];
-  createArrayOfObjects(arrComments, quantityComments, createArrComments);
-  return {
-    id: generatePhotoIdAndUrl,
-    url: `photos/${generatePhotoIdAndUrl}.jpg`,
-    description: description[getRandomInteger(0, description.length - 1)],
-    likes: getRandomInteger(15, 200),
-    comments: arrComments,
+    while (previousValues.includes(currentValue)) {
+      currentValue = getRandomInteger(min, max);
+    }
+    previousValues.push(currentValue);
+    return currentValue;
   };
 };
 
-const arrPhotoDescription = [];
+// Функция генерирует уникальный Id увеличивая предыдущий на 1.
 
-createArrayOfObjects(arrPhotoDescription, 25, photoDescription);
+const createIdGenerator = () => {
+  let lastGeneratedId = 0;
 
-console.log(arrPhotoDescription);
+  return () => {
+    lastGeneratedId += 1;
+    return lastGeneratedId;
+  };
+};
+
+// Выбор рандомного элемента из массива данных
+
+const getRandomArrayElement = (items) =>
+  items[getRandomInteger(0, items.length - 1)];
+
+// Создание сообщения для коментария из одного или двух предложений
+
+const createMessage = () => Array.from(
+  { length : getRandomInteger(1, 2) },
+  () => getRandomArrayElement(COMMENTS_MESSAGE),
+).join(' ');
+
+const generateCommentId = createIdGenerator();
+
+const createComment = () => ({
+  id: generateCommentId(),
+  avatar: `img/avatar-${getRandomInteger(1, AVATAR_COUNT)}.svg`,
+  message: createMessage(),
+  name: getRandomArrayElement(COMMENTS_NAME),
+});
+
+const generatePhotoId = createUniqueId(1, PICTURE_COUNT);
+
+const createPicture = (index) => ({
+  id: generatePhotoId(),
+  url: `photos/${index}.jpg`,
+  description: getRandomArrayElement(DESCRIPTION),
+  likes: getRandomInteger(LIKE_MIN_COUNT, LIKE_MAX_COUNT),
+  comments: Array.from(
+    { length: getRandomInteger(1, COMMENT_COUNT) },
+    createComment,
+  ),
+});
+
+const getPictures = () => Array.from(
+  { length: PICTURE_COUNT },
+  (_, pictureIndex) => createPicture(pictureIndex + 1),
+);
+
+const arrayPictures = getPictures();
+
+console.log(arrayPictures);
