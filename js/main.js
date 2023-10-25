@@ -140,6 +140,7 @@ const getPictures = () => Array.from(
   (_, pictureIndex) => createPicture(pictureIndex + 1),
 );
 
-const arrayPictures = getPictures();
+getPictures();
+//const arrayPictures = getPictures();
 
-console.log(arrayPictures);
+//console.log(arrayPictures);
