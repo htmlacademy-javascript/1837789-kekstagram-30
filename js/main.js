@@ -1,4 +1,4 @@
 import {getPictures} from './data.js';
-
-const result = getPictures();
-console.log(result);
+getPictures();
+//const result = getPictures();
+//console.log(result);
