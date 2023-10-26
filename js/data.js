@@ -1,8 +1,4 @@
-
-import {getPictures} from './data.js';
-
-const result = getPictures();
-console.log(result);
+import {getRandomInteger, getRandomArrayElement, createIdGenerator} from './utils.js';
 
 const PICTURE_COUNT = 25;
 const AVATAR_COUNT = 6;
@@ -65,61 +61,12 @@ const COMMENTS_MESSAGE = [
   'Тоже так хочу.'
 ];
 
-// Генерация случайного целого числа из заданного диапазона.
-
-const getRandomInteger = (min, max) => {
-  const lower = Math.ceil(Math.min(Math.abs(min), Math.abs(max)));
-  const upper = Math.floor(Math.max(Math.abs(min), Math.abs(max)));
-  const result = Math.random() * (upper - lower + 1) + lower;
-
-  return Math.floor(result);
-};
-
-getRandomInteger(1, 25);
-
-
-// Создание уникальных ключей.
-
-const createUniqueId = (min, max) => {
-  const previousValues = [];
-
-  return function () {
-    let currentValue = getRandomInteger(min, max);
-    if (previousValues.length >= (max - min + 1)) {
-      return null;
-    }
-    while (previousValues.includes(currentValue)) {
-      currentValue = getRandomInteger(min, max);
-    }
-    previousValues.push(currentValue);
-    return currentValue;
-  };
-};
-
-// Функция генерирует уникальный Id увеличивая предыдущий на 1.
-
-const createIdGenerator = () => {
-  let lastGeneratedId = 0;
-
-  return () => {
-    lastGeneratedId += 1;
-    return lastGeneratedId;
-  };
-};
-
-// Выбор рандомного элемента из массива данных
-
-const getRandomArrayElement = (items) =>
-  items[getRandomInteger(0, items.length - 1)];
-
-// Создание сообщения для коментария из одного или двух предложений
+const generateCommentId = createIdGenerator();
 
 const createMessage = () => Array.from(
   { length : getRandomInteger(1, 2) },
   () => getRandomArrayElement(COMMENTS_MESSAGE),
 ).join(' ');
-
-const generateCommentId = createIdGenerator();
 
 const createComment = () => ({
   id: generateCommentId(),
@@ -128,7 +75,7 @@ const createComment = () => ({
   name: getRandomArrayElement(COMMENTS_NAME),
 });
 
-const generatePhotoId = createUniqueId(1, PICTURE_COUNT);
+const generatePhotoId = createIdGenerator();
 
 const createPicture = (index) => ({
   id: generatePhotoId(),
@@ -136,7 +83,7 @@ const createPicture = (index) => ({
   description: getRandomArrayElement(DESCRIPTION),
   likes: getRandomInteger(LIKE_MIN_COUNT, LIKE_MAX_COUNT),
   comments: Array.from(
-    { length: getRandomInteger(1, COMMENT_COUNT) },
+    { length: getRandomInteger(0, COMMENT_COUNT) },
     createComment,
   ),
 });
@@ -146,7 +93,4 @@ const getPictures = () => Array.from(
   (_, pictureIndex) => createPicture(pictureIndex + 1),
 );
 
-getPictures();
-//const arrayPictures = getPictures();
-
-//console.log(arrayPictures);
+export {getPictures};
