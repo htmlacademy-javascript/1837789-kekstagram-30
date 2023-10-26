@@ -1,3 +1,4 @@
+
 // Функция преобразует время в число
 const lookingNumbers = (string) => {
   string = String(string);
