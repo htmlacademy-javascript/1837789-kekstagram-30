@@ -1,6 +1,6 @@
 
 // Функция преобразует время в число
-const lookingNumbers = (string) => {
+const timeToNumbers = (string) => {
   string = String(string);
   const stringLength = string.length;
   let stringNumbers = '';
@@ -25,9 +25,9 @@ const lookingNumbers = (string) => {
 
 //Функция проверяет не выходит ли встреча за рамки рабочего дня.
 const extendsMeeting = (beginingWorkDay, endWorkDay, startMeeting, durationMeeting) => {
-  const beginingWorkDayNumber = lookingNumbers(beginingWorkDay);
-  const endWorkDayNumber = lookingNumbers(endWorkDay);
-  const startMeetingNumber = lookingNumbers(startMeeting);
+  const beginingWorkDayNumber = timeToNumbers(beginingWorkDay);
+  const endWorkDayNumber = timeToNumbers(endWorkDay);
+  const startMeetingNumber = timeToNumbers(startMeeting);
   const durationMeetingNumber = durationMeeting * 100 / 60;
 
   return (startMeetingNumber >= beginingWorkDayNumber && (startMeetingNumber + durationMeetingNumber) <= endWorkDayNumber);
@@ -155,4 +155,4 @@ lookingNumbers(2023); // 2023
 lookingNumbers(-1); // 1
 //console.log(lookingNumbers(-1));
 lookingNumbers(1.5); // 15
-//console.log(lookingNumbers(1.5)); 
+//console.log(lookingNumbers(1.5));
