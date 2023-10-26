@@ -155,4 +155,4 @@ lookingNumbers(2023); // 2023
 lookingNumbers(-1); // 1
 //console.log(lookingNumbers(-1));
 lookingNumbers(1.5); // 15
-//console.log(lookingNumbers(1.5)); 
+//console.log(lookingNumbers(1.5));
