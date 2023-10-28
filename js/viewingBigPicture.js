@@ -2,7 +2,6 @@ const body = document.querySelector('body');
 const bigPicture = document.querySelector('.big-picture');
 const bigPictureImg = bigPicture.querySelector('.big-picture__img');
 const likesCount = bigPicture.querySelector('.likes-count');
-const socialCommentShownCount = bigPicture.querySelector('.social__comment-shown-count');
 const socialCommentTotalCount = bigPicture.querySelector('.social__comment-total-count');
 const socialCaption = bigPicture.querySelector('.social__caption');
 const socialComments = bigPicture.querySelector('.social__comments');
@@ -37,23 +36,23 @@ const marksComment = (commentsData) => {
   return listItem;
 };
 
-const renderComments = (comments, start, end) => {
+const renderComments = (comments) => {
   const fragment = document.createDocumentFragment();
-  for (let i = start; i < end; i++) {
-    const oneComment = marksComment(comments[i]);
+  comments.forEach((comment) => {
+    const oneComment = marksComment(comment);
     fragment.append(oneComment);
-  }
+  });
   return fragment;
 };
 
 //Функция заполняет данными большое фото
 const fillsDataBigPicture = ({url, description, likes, comments}) => {
-  const commentsShown = Math.round((comments.length) / 3);
   bigPictureImg.querySelector('img').src = url;
   likesCount.textContent = likes;
-  socialCommentShownCount.textContent = commentsShown;
   socialCommentTotalCount.textContent = comments.length;
   socialCaption.textContent = description;
+  const fragmentComments = renderComments(comments);
+  socialComments.append(fragmentComments);
 };
 
 const onDocumentKeydown = (evt) => {
@@ -66,9 +65,6 @@ const onDocumentKeydown = (evt) => {
 function openBigPicture (data) {
   bigPicture.classList.remove('hidden');
   fillsDataBigPicture(data);
-  const end = socialCommentShownCount.textContent;
-  const fragmentComments = renderComments(data.comments, 0, end);
-  socialComments.append(fragmentComments);
 
   document.addEventListener('keydown', onDocumentKeydown);
   body.classList.add('modal-open');
