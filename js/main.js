@@ -1,5 +1,14 @@
 import {getPictures} from './data.js';
-import {renderThambnails} from './thambnail.js';
+import {renderThumbnails} from './thumbnail.js';
+import {viewingBigPicture} from './viewingBigPicture.js';
 
-const pictures = getPictures();
-renderThambnails(pictures);
+const thumbnailData = getPictures();
+
+// Отрисовываем миниатюры на странице
+renderThumbnails(thumbnailData);
+
+const container = document.querySelectorAll('.picture');
+
+for (let i = 0; i < container.length; i++) {
+  viewingBigPicture(container[i], thumbnailData[i]);
+}
