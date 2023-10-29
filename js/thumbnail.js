@@ -1,4 +1,3 @@
-//const container = document.querySelector('.pictures');
 const thumbnailTemplate = document.querySelector('#picture')
   .content.querySelector('.picture');
 
@@ -23,4 +22,4 @@ const renderThumbnails = (pictures, container) => {
   container.append(fragment);
 };
 
-export {renderThumbnails};
+export { renderThumbnails };
