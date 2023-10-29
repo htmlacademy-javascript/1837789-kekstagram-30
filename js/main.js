@@ -1,6 +1,4 @@
+import { getPictures } from './data.js';
+import { renderGallery } from './gallery.js';
 
-import {getPictures} from './data.js';
-
-getPictures();
-//const result = getPictures();
-//console.log(result);
+renderGallery(getPictures());
