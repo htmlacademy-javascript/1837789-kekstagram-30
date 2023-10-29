@@ -11,6 +11,13 @@ const commentsLoader = bigPicture.querySelector('.comments-loader');
 
 const isEscapeKey = (evt) => evt.key === 'Escape';
 
+const onDocumentKeydown = (evt) => {
+  if (isEscapeKey(evt)) {
+    evt.preventDefault();
+    closeBigPicture();
+  }
+};
+
 // Создание одного элемента разметки
 const makeElement = (tagName, className, text) => {
   const element = document.createElement(tagName);
@@ -55,38 +62,28 @@ const fillsDataBigPicture = ({url, description, likes, comments}) => {
   socialComments.append(fragmentComments);
 };
 
-const onDocumentKeydown = (evt) => {
-  if (isEscapeKey(evt)) {
-    evt.preventDefault();
-    closeBigPicture();
-  }
-};
-
-function openBigPicture (data) {
+const openBigPicture = (data) => {
   bigPicture.classList.remove('hidden');
+  body.classList.add('modal-open');
+  socialComments.innerHTML = '';
+
   fillsDataBigPicture(data);
 
   document.addEventListener('keydown', onDocumentKeydown);
-  body.classList.add('modal-open');
+
   socialCommentCount.classList.add('hidden');
   commentsLoader.classList.add('hidden');
-}
-
-function closeBigPicture () {
-  socialComments.innerHTML = '';
-  bigPicture.classList.add('hidden');
-
-  document.removeEventListener('keydown', onDocumentKeydown);
-  body.classList.remove('modal-open');
-}
-
-const viewingBigPicture = (thumbnail, data) => {
-  thumbnail.addEventListener('click', () => {
-    openBigPicture(data);
-  });
-  pictureCancel.addEventListener('click', () => {
-    closeBigPicture();
-  });
 };
 
-export {viewingBigPicture};
+function closeBigPicture () {
+  bigPicture.classList.add('hidden');
+  body.classList.remove('modal-open');
+
+  document.removeEventListener('keydown', onDocumentKeydown);
+}
+
+pictureCancel.addEventListener('click', () => {
+  closeBigPicture();
+});
+
+export { openBigPicture };
