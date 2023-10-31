@@ -1,3 +1,6 @@
+import { resetScale } from './scale.js';
+import { init as initEffect, reset as resetEffect } from './effect.js';
+
 const MAX_HASHTAG_COUNT = 5;
 const VALID_SIMBOLS = /^#[a-zа-яё0-9]{1,19}$/i;
 
@@ -14,8 +17,6 @@ const uploadFileElement = formElement.querySelector('#upload-file');
 const imgUploadOverlayElement = formElement.querySelector('.img-upload__overlay');
 const cancelButton = formElement.querySelector('#upload-cancel');
 const textDescriptionElement = formElement.querySelector('.text__description');
-//const imgDefaultElement = formElement.querySelector('#img-upload__default');
-//const effectsPreviewElement = formElement.querySelectorAll('.effects__preview');
 
 const pristine = new Pristine(formElement, {
   classTo: 'img-upload__field-wrapper',
@@ -32,6 +33,8 @@ const openForm = () => {
 
 const closeForm = () => {
   formElement.reset();
+  resetScale();
+  resetEffect();
   pristine.reset();
 
   imgUploadOverlayElement.classList.add('hidden');
@@ -39,10 +42,6 @@ const closeForm = () => {
 
   document.removeEventListener('keydown', onDocumentKeydown);
 };
-
-//validateHashTags
-
-//validateComment
 
 const onimgUploadFileChange = () => {
   openForm();
@@ -62,8 +61,8 @@ const validateHashtagsCount = (value) => normalizeTags(value).length <= MAX_HASH
 
 const validateHashtagsRepeate = (value) => {
   const lowerCaseTags = normalizeTags(value).map((tag) => tag.toLowerCase());
-  const uniqueHashtags = Array.from(new Set(lowerCaseTags));
-  return lowerCaseTags.length === uniqueHashtags.length;
+  const uniqueHashtags = new Set(lowerCaseTags);
+  return lowerCaseTags.length === uniqueHashtags.size;
 };
 
 pristine.addValidator(textHashtagsElement, validateHashtags, ERROR_TEXT.INVALID_PATTERN, 1, true);
@@ -88,6 +87,7 @@ const startsForm = () => {
   uploadFileElement.addEventListener('change', onimgUploadFileChange);
   cancelButton.addEventListener('click', closeForm);
   formElement.addEventListener('submit', onFormElementSubmit);
+  initEffect();
 };
 
 export { startsForm };
