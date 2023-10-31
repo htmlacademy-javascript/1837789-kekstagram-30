@@ -83,12 +83,8 @@ function onDocumentKeydown(evt) {
   }
 }
 
-const startsForm = () => {
-  uploadFileElement.addEventListener('change', onimgUploadFileChange);
-  cancelButton.addEventListener('click', closeForm);
-  formElement.addEventListener('submit', onFormElementSubmit);
-  initEffect();
-};
-
-export { startsForm };
+uploadFileElement.addEventListener('change', onimgUploadFileChange);
+cancelButton.addEventListener('click', closeForm);
+formElement.addEventListener('submit', onFormElementSubmit);
+initEffect();
 
