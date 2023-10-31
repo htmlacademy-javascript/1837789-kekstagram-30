@@ -89,6 +89,5 @@ const startsForm = () => {
   cancelButton.addEventListener('click', closeForm);
   formElement.addEventListener('submit', onFormElementSubmit);
 };
-
 export { startsForm };
 
