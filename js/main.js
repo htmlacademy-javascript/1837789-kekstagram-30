@@ -5,3 +5,4 @@ import { startsForm } from './form.js';
 renderGallery(getPictures());
 
 startsForm();
+
