@@ -1,5 +1,7 @@
 import { resetScale } from './scale.js';
 import { init as initEffect, reset as resetEffect } from './effect.js';
+import { sendData } from './api.js';
+import { showSuccessMessage, showErrorMessage } from './message.js';
 
 const MAX_HASHTAG_COUNT = 5;
 const VALID_SIMBOLS = /^#[a-zа-яё0-9]{1,19}$/i;
@@ -10,6 +12,11 @@ const ERROR_TEXT = {
   INVALID_PATTERN: 'Неправельный хэштэг',
 };
 
+const SubmitButtonText = {
+  IDLE: 'Опубликовать',
+  SENDING: 'Отправляю...'
+};
+
 const formElement = document.querySelector('.img-upload__form');
 const textHashtagsElement = formElement.querySelector('.text__hashtags');
 const bodyElement = document.querySelector('body');
@@ -17,12 +24,23 @@ const uploadFileElement = formElement.querySelector('#upload-file');
 const imgUploadOverlayElement = formElement.querySelector('.img-upload__overlay');
 const cancelButton = formElement.querySelector('#upload-cancel');
 const textDescriptionElement = formElement.querySelector('.text__description');
+const submitButton = formElement.querySelector('#upload-submit');
 
 const pristine = new Pristine(formElement, {
   classTo: 'img-upload__field-wrapper',
   errorTextParent: 'img-upload__field-wrapper',
   errorTextClass: 'img-upload__field-wrapper--error'
 });
+
+const blockSubmitButton = () => {
+  submitButton.disabled = true;
+  submitButton.textContent = SubmitButtonText.SENDING;
+};
+
+const unblockSubmitButton = () => {
+  submitButton.disabled = false;
+  submitButton.textContent = SubmitButtonText.IDLE;
+};
 
 const openForm = () => {
   imgUploadOverlayElement.classList.remove('hidden');
@@ -45,11 +63,6 @@ const closeForm = () => {
 
 const onimgUploadFileChange = () => {
   openForm();
-};
-
-const onFormElementSubmit = (evt) => {
-  evt.preventDefault();
-  pristine.validate();
 };
 
 const normalizeTags = (tagString) => tagString.trim().split(' ').filter((tag) => Boolean(tag.length));
@@ -77,7 +90,8 @@ const isTextFiledFocused = () =>
 const isEscapeKey = (evt) => evt.key === 'Escape';
 
 function onDocumentKeydown(evt) {
-  if (isEscapeKey(evt) && !isTextFiledFocused()) {
+  const isErrorMessageExists = Boolean(document.querySelector('.error'));
+  if (isEscapeKey(evt) && !isTextFiledFocused() && !isErrorMessageExists) {
     evt.preventDefault();
     closeForm();
   }
@@ -85,6 +99,29 @@ function onDocumentKeydown(evt) {
 
 uploadFileElement.addEventListener('change', onimgUploadFileChange);
 cancelButton.addEventListener('click', closeForm);
-formElement.addEventListener('submit', onFormElementSubmit);
+
 initEffect();
 
+const onFormSubmit = async (evt) => {
+  evt.preventDefault();
+  const isValid = pristine.validate();
+  if (!isValid) {
+    return;
+  }
+  try {
+    blockSubmitButton();
+    await sendData(new FormData(evt.target));
+    unblockSubmitButton();
+    closeForm();
+    showSuccessMessage();
+  } catch {
+    showErrorMessage();
+    unblockSubmitButton();
+  }
+};
+
+const setFormSubmit = () => {
+  formElement.addEventListener('submit', onFormSubmit);
+};
+
+export { setFormSubmit };
