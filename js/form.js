@@ -3,6 +3,7 @@ import { init as initEffect, reset as resetEffect } from './effect.js';
 import { sendData } from './api.js';
 import { showSuccessMessage, showErrorMessage } from './message.js';
 
+const FILE_TYPES = ['jpg', 'jpeg', 'png'];
 const MAX_HASHTAG_COUNT = 5;
 const VALID_SIMBOLS = /^#[a-zа-яё0-9]{1,19}$/i;
 
@@ -25,6 +26,7 @@ const imgUploadOverlayElement = formElement.querySelector('.img-upload__overlay'
 const cancelButton = formElement.querySelector('#upload-cancel');
 const textDescriptionElement = formElement.querySelector('.text__description');
 const submitButton = formElement.querySelector('#upload-submit');
+const imgDefaultElement = formElement.querySelector('#img-upload__default');
 
 const pristine = new Pristine(formElement, {
   classTo: 'img-upload__field-wrapper',
@@ -45,6 +47,14 @@ const unblockSubmitButton = () => {
 const openForm = () => {
   imgUploadOverlayElement.classList.remove('hidden');
   bodyElement.classList.add('modal-open');
+  const file = uploadFileElement.files[0];
+  const fileName = file.name.toLowerCase();
+
+  const matches = FILE_TYPES.some((it) => fileName.endsWith(it));
+  if (matches) {
+
+    imgDefaultElement.src = URL.createObjectURL(file);
+  }
 
   document.addEventListener('keydown', onDocumentKeydown);
 };
