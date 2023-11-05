@@ -1,3 +1,4 @@
+
 const thumbnailTemplate = document.querySelector('#picture')
   .content.querySelector('.picture');
 
@@ -23,3 +24,4 @@ const renderThumbnails = (pictures, container) => {
 };
 
 export { renderThumbnails };
+
