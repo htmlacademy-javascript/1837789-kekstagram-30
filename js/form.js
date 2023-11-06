@@ -55,7 +55,7 @@ const openForm = () => {
   const fileName = file.name.toLowerCase();
 
   const matches = FILE_TYPES.some((it) => fileName.endsWith(it));
-  if (matches) {
+  if (file && matches) {
     imgDefaultElement.src = URL.createObjectURL(file);
     PreviewElements.forEach ((element) => {
       element.style.backgroundImage = `url(${URL.createObjectURL(file)})`;
