@@ -1,8 +1,6 @@
-
 import { getPictures } from './data.js';
 import { renderGallery } from './gallery.js';
-import {startsForm} from './form.js';
-
+import { startsForm } from './form.js';
 
 renderGallery(getPictures());
 
