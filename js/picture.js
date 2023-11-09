@@ -15,7 +15,7 @@ const socialCaptionElement = bigPictureElement.querySelector('.social__caption')
 const pictureCancelElement = bigPictureElement.querySelector('#picture-cancel');
 
 let commentsCoutShown = 0;
-let commentsArray = [];
+let arrayComments = [];
 
 const createComment = ({avatar, name, message}) => {
   const newComment = commentElement.cloneNode(true);
@@ -30,9 +30,9 @@ const createComment = ({avatar, name, message}) => {
 const renderComments = () => {
   commentsCoutShown += COMMENTS_COUNT_SHOW;
 
-  if (commentsCoutShown >= commentsArray.length) {
+  if (commentsCoutShown >= arrayComments.length) {
     commentsLoaderElement.classList.add('hidden');
-    commentsCoutShown = commentsArray.length;
+    commentsCoutShown = arrayComments.length;
   } else {
     commentsLoaderElement.classList.remove('hidden');
   }
@@ -40,14 +40,14 @@ const renderComments = () => {
   const fragment = document.createDocumentFragment();
 
   for (let i = 0; i < commentsCoutShown; i++) {
-    const comment = createComment(commentsArray[i]);
+    const comment = createComment(arrayComments[i]);
     fragment.append(comment);
   }
   commentsListElement.innerHTML = '';
   commentsListElement.append(fragment);
 
   commentShownCountElement.textContent = commentsCoutShown;
-  socialCommentTotalCountElement.textContent = commentsArray.length;
+  socialCommentTotalCountElement.textContent = arrayComments.length;
 };
 
 const onCommentsLoaderClick = () => renderComments();
@@ -71,7 +71,7 @@ const fillsDataBigPicture = ({url, description, likes, comments}) => {
   socialCaptionElement.textContent = description;
 
   if (comments.length > 0) {
-    commentsArray = comments;
+    arrayComments = comments;
   }
 
   renderComments();

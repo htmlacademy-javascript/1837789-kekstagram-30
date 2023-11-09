@@ -1,4 +1,5 @@
 const REMOVE_MESSAGE_TIMEOUT = 5000;
+const PAUSE_IMG_RENDERING = 500;
 
 const isEscapeKey = (evt) => evt.key === 'Escape';
 
@@ -14,7 +15,7 @@ const showErrorMessage = () => {
   }, REMOVE_MESSAGE_TIMEOUT);
 };
 
-const debounce = (callback, timeoutDelay = 500) => {
+const debounce = (callback, timeoutDelay = PAUSE_IMG_RENDERING) => {
   let timeoutId;
 
   return (...rest) => {
