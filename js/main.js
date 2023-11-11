@@ -1,8 +1,17 @@
-import { getPictures } from './data.js';
 import { renderGallery } from './gallery.js';
-import { startsForm } from './form.js';
+import { setFormSubmit } from './form.js';
+import './form.js';
+import { getData } from './api.js';
+import { showErrorMessage } from './utils.js';
 
-renderGallery(getPictures());
+getData()
+  .then((pictures) => {
+    renderGallery(pictures);
+  })
+  .catch(
+    () => {
+      showErrorMessage();
+    }
+  );
 
-startsForm();
-
+setFormSubmit();
