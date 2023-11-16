@@ -21,4 +21,9 @@ const renderGallery = (pictures) => {
   renderThumbnails(pictures, container);
 };
 
-export { renderGallery };
+const hidesGallery = () => {
+
+};
+
+export { renderGallery, hidesGallery };
+

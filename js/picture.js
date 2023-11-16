@@ -1,3 +1,5 @@
+import { isEscapeKey } from './utils.js';
+
 const COMMENTS_COUNT_SHOW = 5;
 
 const bigPictureElement = document.querySelector('.big-picture');
@@ -49,8 +51,6 @@ const renderComments = () => {
 };
 
 const onCommentsLoaderClick = () => renderComments();
-
-const isEscapeKey = (evt) => evt.key === 'Escape';
 
 const onDocumentKeydown = (evt) => {
   if (isEscapeKey(evt)) {

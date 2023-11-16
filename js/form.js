@@ -2,14 +2,18 @@ import { resetScale } from './scale.js';
 import { init as initEffect, reset as resetEffect } from './effect.js';
 import { sendData } from './api.js';
 import { showSuccessMessage, showErrorMessage } from './message.js';
+import { isEscapeKey } from './utils.js';
 
+const FILE_TYPES = ['jpg', 'jpeg', 'png'];
 const MAX_HASHTAG_COUNT = 5;
+const MAX_LENGTH = 140;
 const VALID_SIMBOLS = /^#[a-zа-яё0-9]{1,19}$/i;
 
 const ERROR_TEXT = {
   INVALID_COUNT: `Максимум ${MAX_HASHTAG_COUNT} хэштэгов`,
   NOT_UNIQUE: 'Хэштэги должны быть уникальными',
   INVALID_PATTERN: 'Неправельный хэштэг',
+  INVALID_LENGTH: 'Комментарий не может быть длиннее 140 символов!',
 };
 
 const SubmitButtonText = {
@@ -25,6 +29,8 @@ const imgUploadOverlayElement = formElement.querySelector('.img-upload__overlay'
 const cancelButton = formElement.querySelector('#upload-cancel');
 const textDescriptionElement = formElement.querySelector('.text__description');
 const submitButton = formElement.querySelector('#upload-submit');
+const imgDefaultElement = formElement.querySelector('#img-upload__default');
+const PreviewElements = formElement.querySelectorAll('.effects__preview');
 
 const pristine = new Pristine(formElement, {
   classTo: 'img-upload__field-wrapper',
@@ -45,6 +51,16 @@ const unblockSubmitButton = () => {
 const openForm = () => {
   imgUploadOverlayElement.classList.remove('hidden');
   bodyElement.classList.add('modal-open');
+  const file = uploadFileElement.files[0];
+  const fileName = file.name.toLowerCase();
+
+  const matches = FILE_TYPES.some((it) => fileName.endsWith(it));
+  if (matches) {
+    imgDefaultElement.src = URL.createObjectURL(file);
+    PreviewElements.forEach ((element) => {
+      element.style.backgroundImage = `url(${URL.createObjectURL(file)})`;
+    });
+  }
 
   document.addEventListener('keydown', onDocumentKeydown);
 };
@@ -78,16 +94,17 @@ const validateHashtagsRepeate = (value) => {
   return lowerCaseTags.length === uniqueHashtags.size;
 };
 
+const validateTextCommentLength = () => textDescriptionElement.value.length <= 140;
+
 pristine.addValidator(textHashtagsElement, validateHashtags, ERROR_TEXT.INVALID_PATTERN, 1, true);
 pristine.addValidator(textHashtagsElement, validateHashtagsCount, ERROR_TEXT.INVALID_COUNT, 3, true);
 pristine.addValidator(textHashtagsElement, validateHashtagsRepeate, ERROR_TEXT.NOT_UNIQUE, 2, true);
+pristine.addValidator(textDescriptionElement, validateTextCommentLength, ERROR_TEXT.INVALID_LENGTH, true);
 
 const isTextFiledFocused = () =>
   document.activeElement === textHashtagsElement ||
   document.activeElement === textDescriptionElement;
 
-
-const isEscapeKey = (evt) => evt.key === 'Escape';
 
 function onDocumentKeydown(evt) {
   const isErrorMessageExists = Boolean(document.querySelector('.error'));
@@ -96,11 +113,6 @@ function onDocumentKeydown(evt) {
     closeForm();
   }
 }
-
-uploadFileElement.addEventListener('change', onimgUploadFileChange);
-cancelButton.addEventListener('click', closeForm);
-
-initEffect();
 
 const onFormSubmit = async (evt) => {
   evt.preventDefault();
@@ -120,8 +132,13 @@ const onFormSubmit = async (evt) => {
   }
 };
 
+uploadFileElement.addEventListener('change', onimgUploadFileChange);
+cancelButton.addEventListener('click', closeForm);
+
 const setFormSubmit = () => {
   formElement.addEventListener('submit', onFormSubmit);
 };
+
+initEffect();
 
 export { setFormSubmit };
