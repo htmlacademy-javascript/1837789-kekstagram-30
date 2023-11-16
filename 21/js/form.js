@@ -94,7 +94,7 @@ const validateHashtagsRepeate = (value) => {
   return lowerCaseTags.length === uniqueHashtags.size;
 };
 
-const validateTextCommentLength = () => textDescriptionElement.value.length <= 140;
+const validateTextCommentLength = () => textDescriptionElement.value.length <= MAX_LENGTH;
 
 pristine.addValidator(textHashtagsElement, validateHashtags, ERROR_TEXT.INVALID_PATTERN, 1, true);
 pristine.addValidator(textHashtagsElement, validateHashtagsCount, ERROR_TEXT.INVALID_COUNT, 3, true);
