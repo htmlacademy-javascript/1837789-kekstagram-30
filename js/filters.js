@@ -1,18 +1,18 @@
 import { renderGallery } from './gallery.js';
 import { debounce } from './utils.js';
 
-const filtersElement = document.querySelector('.img-filters');
-const filtersFormElement = document.querySelector('.img-filters__form');
-const defaultBtn = filtersFormElement.querySelector('#filter-default');
-const randomBtn = filtersFormElement.querySelector('#filter-random');
-const discussedBtn = filtersFormElement.querySelector('#filter-discussed');
-
 const MAX_RANDOM_FILTER = 10;
 const FilterEnum = {
   DEFAULT: 'default',
   RANDOM: 'random',
   DISCUSSED: 'discussed'
 };
+
+const filtersElement = document.querySelector('.img-filters');
+const filtersFormElement = document.querySelector('.img-filters__form');
+const defaultBtn = filtersFormElement.querySelector('#filter-default');
+const randomBtn = filtersFormElement.querySelector('#filter-random');
+const discussedBtn = filtersFormElement.querySelector('#filter-discussed');
 
 // Получение рандомного числа
 const getRandomInteger = (min, max) => {
@@ -49,7 +49,6 @@ const createInexList = (pictures) => {
   }
   return randomIndexList;
 };
-
 
 const compareNumbers = (pictureA, pictureB) => {
   const a = pictureA.comments.length;

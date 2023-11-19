@@ -77,7 +77,7 @@ const closeForm = () => {
   document.removeEventListener('keydown', onDocumentKeydown);
 };
 
-const onimgUploadFileChange = () => {
+const onImgUploadFileChange = () => {
   openForm();
 };
 
@@ -132,7 +132,7 @@ const onFormSubmit = async (evt) => {
   }
 };
 
-uploadFileElement.addEventListener('change', onimgUploadFileChange);
+uploadFileElement.addEventListener('change', onImgUploadFileChange);
 cancelButton.addEventListener('click', closeForm);
 
 const setFormSubmit = () => {
